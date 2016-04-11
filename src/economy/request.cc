@@ -79,6 +79,14 @@ Request::Request
 			 index);
 	if (economy_)
 		economy_->add_request(*this);
+
+	auto & g = dynamic_cast<Game&>(init_target.owner().egbase());
+	auto & s = g.syncstream();
+	s.unsigned_8(0x99);
+	s.unsigned_8 (get_type  ());
+	s.unsigned_8 (get_index ());
+	s.unsigned_32(target    ().serial());
+	s.unsigned_8(0x98);
 }
 
 Request::~Request()
