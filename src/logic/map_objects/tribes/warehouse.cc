@@ -293,6 +293,10 @@ Warehouse::~Warehouse()
  */
 bool Warehouse::load_finish_planned_worker(PlannedWorkers & pw)
 {
+	auto & g = dynamic_cast<Game&>(owner().egbase());
+	auto & s = g.syncstream();
+	s.unsigned_16(0xF1F1);
+
 	const TribeDescr& tribe = owner().tribe();
 
 	if (pw.index == INVALID_INDEX || !(pw.index < supply_->get_workers().get_nrwareids())) {

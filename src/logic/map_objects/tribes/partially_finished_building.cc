@@ -109,6 +109,10 @@ Issue a request for the builder.
 void PartiallyFinishedBuilding::request_builder(Game &) {
 	assert(!builder_.is_set() && !builder_request_);
 
+	auto & g = dynamic_cast<Game&>(owner().egbase());
+	auto & s = g.syncstream();
+	s.unsigned_16(0xF0F0);
+
 	builder_request_ =
 		new Request
 			(*this,

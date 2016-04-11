@@ -399,6 +399,10 @@ void MilitarySite::request_soldier_callback
  */
 void MilitarySite::update_normal_soldier_request()
 {
+	auto & g = dynamic_cast<Game&>(owner().egbase());
+	auto & s = g.syncstream();
+	s.unsigned_16(0xFBFB);
+
 	std::vector<Soldier *> present = present_soldiers();
 	uint32_t const stationed = stationed_soldiers().size();
 
@@ -441,6 +445,10 @@ void MilitarySite::update_normal_soldier_request()
  */
 void MilitarySite::update_upgrade_soldier_request()
 {
+	auto & g = dynamic_cast<Game&>(owner().egbase());
+	auto & s = g.syncstream();
+	s.unsigned_16(0xFAFA);
+
 	bool reqch = update_upgrade_requirements();
 	if (!soldier_upgrade_try_)
 		return;
