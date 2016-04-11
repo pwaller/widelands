@@ -80,7 +80,7 @@ Request::Request
 	if (economy_)
 		economy_->add_request(*this);
 
-	auto & g = dynamic_cast<Game&>(init_target.owner().egbase());
+	auto & g = dynamic_cast<Game&>(target_.owner().egbase());
 	auto & s = g.syncstream();
 	s.unsigned_8(0x99);
 	s.unsigned_8 (get_type  ());
@@ -91,6 +91,15 @@ Request::Request
 
 Request::~Request()
 {
+
+	auto & g = dynamic_cast<Game&>(target_.owner().egbase());
+	auto & s = g.syncstream();
+	s.unsigned_8(0x97);
+	s.unsigned_8 (get_type  ());
+	s.unsigned_8 (get_index ());
+	s.unsigned_32(target    ().serial());
+	s.unsigned_8(0x96);
+
 	// Remove from the economy
 	if (is_open() && economy_)
 		economy_->remove_request(*this);
